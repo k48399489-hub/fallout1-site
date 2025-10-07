@@ -1,0 +1,249 @@
+<!doctype html>
+<!--
+  Fallout 1 — Retro 1997-style Single-File Website
+  - Single HTML file (HTML + CSS + JS) that intentionally mimics a late-90s fan site
+  - Pixel fonts, limited palette, table-like layout, 'CRT' scanlines, and marquee effects
+  - Replace placeholder images (./images/*) with your own Fallout-themed images
+  - Save as: fallout1-retro-site.html and open in any modern browser
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FALLOUT: THE WASTELAND ARCHIVE (1997 Fan Site)</title>
+  <style>
+    /* Retro color palette inspired by late-90s gaming sites */
+    :root{
+      --bg:#0b0b07; /* deep dark */
+      --panel:#1a1a12; /* petrol/olive-ish */
+      --accent:#b9b04a; /* faded yellow/green */
+      --muted:#9a8f6a;
+      --text:#e9e6d1;
+      --link:#82c0a8;
+      --shadow:rgba(0,0,0,0.7);
+    }
+
+    /* Global reset + 'boxed' 640x480-ish content to mimic old resolutions */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Courier New',Courier,monospace;background:var(--bg);color:var(--text)}
+
+    .site-wrap{
+      width:820px; /* a little wider than 640 for modern displays but still narrow */
+      margin:30px auto; 
+      background:linear-gradient(180deg,var(--panel),#0f0f08 120%);
+      border:4px solid #6b6b3f; 
+      padding:12px; 
+      box-shadow:0 8px 40px var(--shadow), inset 0 2px 0 rgba(255,255,255,0.03);
+      position:relative;
+      image-rendering: pixelated;
+    }
+
+    header{
+      display:flex;align-items:center;gap:12px;border-bottom:2px dashed rgba(255,255,255,0.03);padding-bottom:8px;margin-bottom:10px;
+    }
+
+    /* Logo block -- use pixel/bitmap feel */
+    .logo{
+      width:220px;height:80px;background:linear-gradient(90deg,#2b2a1b 0%, #111 100%);border:2px solid #000;padding:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;
+      font-size:14px;letter-spacing:1px;text-align:center;color:var(--accent);
+    }
+    .logo .title{font-weight:700;font-size:18px}
+    .logo .sub{font-size:10px;color:var(--muted)}
+
+    nav{
+      margin-left:auto;display:flex;gap:8px;align-items:center;
+    }
+    nav a{display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,0.03);background:#0b0b06;text-decoration:none;color:var(--link);font-size:13px}
+    nav a:hover{background:rgba(255,255,255,0.02);box-shadow:0 2px 0 rgba(0,0,0,0.5)}
+
+    main{display:flex;gap:12px}
+
+    /* Left column - content blocks */
+    .left{width:520px}
+    .panel{background:linear-gradient(#14130a,#0f0f08);border:1px solid rgba(255,255,255,0.03);padding:10px;margin-bottom:10px}
+    .panel h2{margin:0 0 8px 0;font-size:16px;color:var(--accent);}
+    .panel p{margin:6px 0 0 0;color:var(--muted);line-height:1.3}
+
+    /* Right column - side info */
+    .right{width:260px}
+    .side-list{list-style:none;padding:0;margin:0}
+    .side-list li{padding:6px;border-bottom:1px dotted rgba(255,255,255,0.03);font-size:13px}
+
+    /* Footer and signing line to mimic 90s fan disclaimers */
+    footer{margin-top:12px;padding-top:8px;border-top:2px dashed rgba(255,255,255,0.03);font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+
+    /* Gallery thumbnails that look pixelated */
+    .thumb{width:120px;height:90px;background:#222;border:2px solid #000;display:inline-block;margin:6px;vertical-align:top;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
+
+    /* Table-like info box to mimic old layout */
+    .info-table{border-collapse:collapse;width:100%;font-size:13px}
+    .info-table td,.info-table th{border:1px solid #171711;padding:6px}
+    .info-table th{background:#14140a;color:var(--accent);text-align:left}
+
+    /* Marquee-ish announcement */
+    .marquee{overflow:hidden;white-space:nowrap;border-top:1px dashed rgba(255,255,255,0.03);padding:6px;margin-bottom:10px}
+    .marquee p{display:inline-block;padding-left:100%;animation:marq 20s linear infinite}
+    @keyframes marq{from{transform:translateX(0)} to{transform:translateX(-100%)} }
+
+    /* CRT scanlines effect */
+    .crt:after{
+      content:"";position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;mix-blend-mode:overlay;background-image:linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);background-size:100% 4px;opacity:0.5;}
+
+    /* Retro buttons */
+    .btn{display:inline-block;padding:6px 10px;border:2px inset #222;background:linear-gradient(#2a2a1e,#17170b);color:var(--text);text-decoration:none;font-weight:700}
+
+    /* Tiny responsive fallback */
+    @media (max-width:860px){.site-wrap{width:96%}.left{width:100%}.right{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="site-wrap crt">
+    <header>
+      <div class="logo">
+        <div class="title">FALLOUT: THE WASTELAND ARCHIVE</div>
+        <div class="sub">A 1997 fan archive — everything about Fallout 1</div>
+      </div>
+
+      <div style="padding:8px 14px;border:2px solid #000;background:linear-gradient(#0f0f08,#060604);">
+        <strong style="color:var(--accent);">Welcome, Vault Dweller</strong>
+        <div style="font-size:11px;color:var(--muted)">Last updated: <span id="updated">Jan 10, 1998</span></div>
+      </div>
+
+      <nav>
+        <a href="#overview">Overview</a>
+        <a href="#characters">Characters</a>
+        <a href="#vaults">Vaults</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#downloads">Downloads</a>
+      </nav>
+    </header>
+
+    <div class="marquee"><p>NEW: Vault 13 walkthrough uploaded!  |  Tips for surviving deathclaw attacks  |  Send fan art to wasteland@example.com</p></div>
+
+    <main>
+      <div class="left">
+        <section id="overview" class="panel">
+          <h2>Game Overview</h2>
+          <p><strong>Fallout (1997)</strong> — A post-apocalyptic role-playing game by Interplay. Explore the wasteland, make tough choices, and manage your S.P.E.C.I.A.L. stats as you search for a water chip for Vault 13.</p>
+          <table class="info-table" style="margin-top:8px">
+            <tr><th>Release</th><td>1997</td></tr>
+            <tr><th>Developer</th><td>Interplay Productions</td></tr>
+            <tr><th>Genre</th><td>CRPG / Post-apocalyptic</td></tr>
+            <tr><th>Platform</th><td>PC (Windows 95/98)</td></tr>
+          </table>
+        </section>
+
+        <section id="characters" class="panel">
+          <h2>Characters & Notable NPCs</h2>
+          <p>From the steadfast <em>Vault Dweller</em> to the scheming <em>Aradesh</em> and the brutal <em>Deathclaws</em>, Fallout's cast is memorable. Click a name to reveal a short bio.</p>
+          <div style="margin-top:8px">
+            <button class="btn" onclick="toggleBio('bio-1')">Vault Dweller</button>
+            <button class="btn" onclick="toggleBio('bio-2')">Aradesh</button>
+            <button class="btn" onclick="toggleBio('bio-3')">Deathclaw</button>
+          </div>
+          <div id="bio-1" style="display:none;margin-top:8px;color:var(--muted)">The player character — the Vault Dweller leaves Vault 13 to find a replacement water chip and encounters moral choices that shape the Wasteland.</div>
+          <div id="bio-2" style="display:none;margin-top:8px;color:var(--muted)">Aradesh — leader of Shady Sands, involved in political intrigue and alliance-building.</div>
+          <div id="bio-3" style="display:none;margin-top:8px;color:var(--muted)">Deathclaws — terrifying mutated predators; best avoided until well-equipped.</div>
+        </section>
+
+        <section id="vaults" class="panel">
+          <h2>Vaults & Locations</h2>
+          <p>Vault 13 — the starting Vault. Shady Sands, Junktown, and the Den are key settlements with their own quests and characters.</p>
+          <ul style="color:var(--muted)">
+            <li>Vault 13 — water chip quest</li>
+            <li>Shady Sands — early friendly town</li>
+            <li>Junktown — law and chaos mixed</li>
+            <li>Brotherhood of Steel Outpost — advanced tech</li>
+          </ul>
+        </section>
+
+        <section id="gallery" class="panel">
+          <h2>Gallery</h2>
+          <p>Click thumbnails to view larger images (placeholders included).</p>
+          <div>
+            <div class="thumb" onclick="openImage('images/placeholder1.jpg')"><img src="images/placeholder1.jpg" alt="thumb"></div>
+            <div class="thumb" onclick="openImage('images/placeholder2.jpg')"><img src="images/placeholder2.jpg" alt="thumb"></div>
+            <div class="thumb" onclick="openImage('images/placeholder3.jpg')"><img src="images/placeholder3.jpg" alt="thumb"></div>
+          </div>
+        </section>
+
+        <section id="downloads" class="panel">
+          <h2>Downloads & Fan Stuff</h2>
+          <p style="color:var(--muted)">Because this is a vintage-style fan archive, we host guides, small mods, and text walkthroughs. Files are archived in zip format.</p>
+          <p><a class="btn" href="#" onclick="alert('Pretend download: vault13_walkthrough.zip')">Download: vault13_walkthrough.zip</a></p>
+        </section>
+      </div>
+
+      <aside class="right">
+        <div class="panel">
+          <h2>Quick Stats</h2>
+          <table class="info-table">
+            <tr><th>EXP</th><td>Variable</td></tr>
+            <tr><th>S.P.E.C.I.A.L.</th><td>Strength · Perception · Endurance · Charisma · Intelligence · Agility · Luck</td></tr>
+            <tr><th>Save</th><td>Manual saves; backup often!</td></tr>
+          </table>
+        </div>
+
+        <div class="panel">
+          <h2>Fan Links</h2>
+          <ul class="side-list">
+            <li>Fallout Wiki (fan)</li>
+            <li>Vault City Walkthrough</li>
+            <li>Modding resources</li>
+            <li>Forums (retro)</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h2>Visitor Counter</h2>
+          <div style="font-size:28px;font-weight:700;color:var(--accent);text-align:center;padding:8px;border:2px solid #000;background:#0b0b06">012345</div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>© 1997 — Fan site. All trademarks belong to their respective owners.</div>
+      <div>Built with <span style="color:var(--accent)">passion</span> & old HTML</div>
+    </footer>
+  </div>
+
+  <!-- Lightbox / image viewer -->
+  <div id="lightbox" style="position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:9999">
+    <div style="max-width:90%;max-height:90%;border:6px solid #0b0b06;background:#000;padding:8px;">
+      <img id="lightbox-img" src="" style="max-width:100%;max-height:78vh;display:block;image-rendering:pixelated">
+      <div style="text-align:right;margin-top:6px"><button class="btn" onclick="closeLightbox()">Close</button></div>
+    </div>
+  </div>
+
+  <script>
+    // Simple interactivity to keep this looking like a small 90s fan site
+    function toggleBio(id){
+      var el=document.getElementById(id);
+      el.style.display=(el.style.display==='none')? 'block' : 'none';
+    }
+
+    function openImage(src){
+      var lb=document.getElementById('lightbox');
+      var img=document.getElementById('lightbox-img');
+      img.src=src;
+      lb.style.display='flex';
+    }
+    function closeLightbox(){document.getElementById('lightbox').style.display='none'}
+
+    // Fill in a realistic "last updated" date for dramatic effect
+    (function(){
+      var d = new Date();
+      // Make it look like 1998-era by shifting the year (playful aesthetic only)
+      document.getElementById('updated').textContent = 'January 10, 1998';
+    })();
+
+    // Keyboard shortcut: press 'H' to open a faux help dialog
+    document.addEventListener('keydown',function(e){
+      if(e.key.toLowerCase()==='h'){
+        alert('Help: Use the navigation links to explore. Click thumbnails to open images. This is a vintage-styled fan site.');
+      }
+    });
+  </script>
+</body>
+</html>
